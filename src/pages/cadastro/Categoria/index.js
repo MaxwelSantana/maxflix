@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import PageDefault from '../../../components/PageDefault';
 import { Link } from 'react-router-dom';
+import FormField from '../../../components/FormField';
 
 function CadastroCategoria() {
   const [categorias, setCategorias] = useState([]);
-  
+
   const valoresIniciais = {
     nome: '',
     descricao: '',
     cor: ''
   };
-  
+
   const [values, setValues] = useState(valoresIniciais);
 
   function setValue(key, value) {
@@ -21,10 +22,9 @@ function CadastroCategoria() {
   }
 
   function handleChanges(event) {
-    const { getAttribute, value } = event.target;
     setValue(
-      getAttribute('name'), 
-      value
+      event.target.getAttribute('name'),
+      event.target.value
     );
   }
 
@@ -42,39 +42,29 @@ function CadastroCategoria() {
         setValues(valoresIniciais);
       }}>
 
-        <div>
-          <label>
-            Nome da Categoria:
-          <input
-              type="text"
-              value={values.nome}
-              name="nome"
-              onChange={handleChanges}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Descricao:
-          <textarea
-              type="text"
-              value={values.descricao}
-              name="descricao"
-              onChange={handleChanges}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Cor:
-          <input
-              type="color"
-              value={values.cor}
-              name="cor"
-              onChange={handleChanges}
-            />
-          </label>
-        </div>
+        <FormField
+          label="Nome da Categoria"
+          type="text"
+          value={values.nome}
+          name="nome"
+          onChange={handleChanges}
+        />
+
+        <FormField
+          label="Descricao:"
+          type="textarea"
+          value={values.descricao}
+          name="descricao"
+          onChange={handleChanges}
+        />
+
+        <FormField
+          label="Cor"
+          type="color"
+          value={values.cor}
+          name="cor"
+          onChange={handleChanges}
+        />
 
         <button>
           Cadastrar
