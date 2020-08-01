@@ -4,34 +4,20 @@ import { Link } from 'react-router-dom';
 import PageDefault from '../../../components/PageDefault';
 import FormField from '../../../components/FormField';
 import Button from '../../../components/Button';
+import useForm from '../../../hooks/useForm';
 
 function CadastroCategoria() {
-  const [categorias, setCategorias] = useState([]);
-
   const valoresIniciais = {
     nome: '',
     descricao: '',
     cor: '',
   };
 
-  const [values, setValues] = useState(valoresIniciais);
+  const { handleChanges, values, clearForm } = useForm(valoresIniciais);
 
-  function setValue(key, value) {
-    setValues({
-      ...values,
-      [key]: value,
-    });
-  }
-
-  function handleChanges(event) {
-    setValue(
-      event.target.getAttribute('name'),
-      event.target.value,
-    );
-  }
+  const [categorias, setCategorias] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect');
     const URL = window.location.hostname.includes('localhost')
       ? 'http://localhost:8080/categorias'
       : 'https://max-heroku-json-server.herokuapp.com/categorias';
@@ -39,7 +25,6 @@ function CadastroCategoria() {
     fetch(URL)
       .then(async (res) => {
         const data = await res.json();
-        console.log(data);
         setCategorias([
           ...data,
         ]);
@@ -49,7 +34,7 @@ function CadastroCategoria() {
   return (
     <PageDefault>
       <h1>
-        Cadastro de Categoria
+        Cadastro de Categoria:
         {values.nome}
       </h1>
 
@@ -60,7 +45,7 @@ function CadastroCategoria() {
           values,
         ]);
 
-        setValues(valoresIniciais);
+        clearForm(valoresIniciais);
       }}
       >
 
@@ -103,7 +88,7 @@ function CadastroCategoria() {
       <ul>
         {
           categorias.map((categoria, index) => (
-            <li key={`${categoria.nome}${index}`}>{categoria.nome}</li>
+            <li key={`${categoria.titulo}${index}`}>{categoria.titulo}</li>
           ))
         }
       </ul>
